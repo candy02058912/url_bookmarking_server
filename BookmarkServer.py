@@ -5,6 +5,7 @@
 # mapping actually works (i.e. returns a 200 OK).
 
 import http.server
+import os
 import requests
 from urllib.parse import unquote, parse_qs
 
@@ -109,6 +110,7 @@ class Shortener(http.server.BaseHTTPRequestHandler):
             self.wfile.write('Cannot find the webpage {}'.format(longuri).encode())
 
 if __name__ == '__main__':
-    server_address = ('', 8000)
+    port = int(os.environ.get('PORT', 8000))
+    server_address = (port, 8000)
     httpd = http.server.HTTPServer(server_address, Shortener)
     httpd.serve_forever()
